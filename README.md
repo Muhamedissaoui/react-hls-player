@@ -60,6 +60,7 @@ All [video properties](https://www.w3schools.com/tags/att_video_poster.asp) are 
 | src `String`, `required` | The hls url that you want to play                                                                                       |
 | autoPlay `Boolean`       | Autoplay when component is ready. Defaults to `false`                                                                   |
 | hlsConfig `Object`       | `hls.js` config, you can see all config [here](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning) |
+| width `String`           | dictates the width of the player (FYI : if you leave this empty the player is responsive and will take the best width)  |
 
 ### Additional Notes
 
