@@ -1,0 +1,553 @@
+.player-container {
+  display: flex;
+  justify-content: center;
+  width: 1080px;
+  position: relative;
+  margin-inline: auto;
+}
+
+.player-container.full-screen {
+  max-width: initial;
+  width: 100%;
+  max-height: 100vh;
+}
+
+.player-container.full-screen .open {
+  display: none;
+}
+.player-container:not(.full-screen) .close {
+  display: none;
+}
+
+.player-container > .player-waiting {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+.player-container > .player-waiting.waiting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.player-container > .player-waiting > .loading {
+  width: 65px;
+  height: 65px;
+  border: 10px solid white;
+  border-top-color: black;
+  border-radius: 50%;
+  animation: loading 0.75s ease infinite;
+}
+.player-container > .player-play-icon {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.player-container.paused > .player-play-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+.player-container > .player-play-icon > .play {
+  display: grid;
+  place-items: center;
+  opacity: 0.85;
+  font-size: 80px;
+  color: white;
+  cursor: pointer;
+  place-items: center;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  border: none;
+  background: black;
+  animation: pulse 1.3s ease infinite;
+}
+.player-container > .player-play-icon > .play::before {
+  content: "";
+  display: inline-block;
+  border-left: 0.3em solid;
+  border-top: 0.18em solid transparent;
+  border-bottom: 0.18em solid transparent;
+  margin-right: -0.08em;
+}
+.player-container > .player-play-icon > .play:hover {
+  opacity: 1;
+}
+.player-container > video {
+  width: 100%;
+}
+
+.player-container > .player-controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.player-container > .player-controls-container::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+  width: 100%;
+  aspect-ratio: 7 / 1;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.player-container:hover > .player-controls-container,
+.player-container:focus-within > .player-controls-container,
+.player-container.paused > .player-controls-container {
+  opacity: 1;
+}
+.player-container > .player-controls-container > .controls {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  align-items: center;
+}
+.controls button {
+  display: block;
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opaticy 150ms ease-in-out, background 150ms ease-in-out,
+    color 150ms ease-in-out;
+}
+.controls button:hover {
+  opacity: 1;
+  background: white;
+  color: black;
+}
+
+.player-container > .player-controls-container > .dropup {
+  animation: fadeUp cubic-bezier(0.46, 0.08, 0.54, 0.99) 350ms;
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  width: 150px;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: 30px;
+  margin-bottom: 50px;
+}
+.player-container > .player-controls-container > .dropup.open {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.player-container > .player-controls-container > .dropup > .title {
+  display: flex;
+  background-color: black;
+  color: #fff;
+  font-size: 10px;
+  height: 20px;
+  border: 1px solid white;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.player-container > .player-controls-container > .dropup > p {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 10px;
+  font-size: 15px;
+}
+.player-container > .player-controls-container > .dropup > label {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  align-items: center;
+  list-style: none;
+  cursor: pointer;
+  margin: 3px;
+  padding: 5px;
+  font-size: 15px;
+  transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+}
+.player-container > .player-controls-container > .dropup > label > span {
+  padding-bottom: 4px;
+}
+.player-container
+  > .player-controls-container
+  > .dropup
+  > label
+  > input[type="radio"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: black;
+  width: 0.75em;
+  height: 0.75em;
+  border: 0.12em solid black;
+  margin-right: 10px;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-container
+  > .player-controls-container
+  > .dropup
+  > label
+  > input[type="radio"]::before {
+  content: "";
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em black;
+}
+
+.player-container
+  > .player-controls-container
+  > .dropup
+  > label
+  > input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.player-container > .player-controls-container > .dropup > label:hover {
+  background-color: black;
+  color: white;
+}
+
+.player-container.paused
+  > .player-controls-container
+  > .controls
+  > button
+  > .pause-icon {
+  display: none;
+}
+.player-container:not(.paused)
+  > .player-controls-container
+  > .controls
+  > button
+  > .play-icon {
+  display: none;
+}
+
+.player-container > .player-controls-container > .controls > .volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > .volume-slider {
+  width: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+}
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container:hover
+  > .volume-slider,
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > .volume-slider:focus-within {
+  width: 80px;
+  transform: scaleX(1);
+}
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > .volume-slider {
+  appearance: none;
+  height: 2px;
+  background: white;
+  cursor: pointer;
+}
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > .volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  outline: none;
+  background: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > .volume-slider::-moz-range-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  outline: none;
+  background: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-high-icon,
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-low-icon,
+.player-container
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-muted-icon {
+  display: none;
+}
+
+.player-container[data-volume-level="high"]
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-high-icon {
+  display: block;
+}
+.player-container[data-volume-level="low"]
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-low-icon {
+  display: block;
+}
+.player-container[data-volume-level="muted"]
+  > .player-controls-container
+  > .controls
+  > .volume-container
+  > button
+  > .volume-muted-icon {
+  display: block;
+}
+.player-container
+  > .player-controls-container
+  > .controls
+  > .duration-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2.6px;
+  font-size: 15px;
+  gap: 0.25rem;
+  flex-grow: 1;
+}
+.player-container > .player-controls-container > .controls > button .wide-btn {
+  width: 50px;
+}
+
+.player-container > .player-controls-container > .timeline-container {
+  height: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.player-container
+  > .player-controls-container
+  > .timeline-container
+  > .timeline {
+  background-color: rgba(100, 100, 100, 0.5);
+  height: 3px;
+  width: 100%;
+  position: relative;
+}
+.player-container > .player-controls-container > .timeline-container > .buffer {
+  background-color: #fdfffc;
+  height: 3px;
+  position: absolute;
+  z-index: 2;
+}
+
+.player-container
+  > .player-controls-container
+  > .timeline-container
+  > .progress {
+  background-color: rgba(100, 100, 100, 0.5);
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  z-index: 3;
+}
+.player-container
+  > .player-controls-container
+  > .timeline-container
+  > .progress::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--preview-position) * 100%);
+  background-color: rgb(134, 134, 134);
+  display: none;
+}
+.player-container
+  > .player-controls-container
+  > .timeline-container
+  > .progress::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--progress-position) * 100%);
+  background-color: black;
+}
+.player-container
+  > .player-controls-container
+  > .timeline-container
+  > .thumb-indicator {
+  scale: 0;
+  position: absolute;
+  transform: translateX(calc(-12px * var(--progress-position)));
+  height: 12px;
+  left: calc(var(--progress-position) * 100%);
+  background-color: black;
+  border-radius: 50%;
+  transition: transform 80ms ease-in-out;
+  aspect-ratio: 1 / 1;
+  z-index: 3;
+}
+
+.player-container.scrubbing
+  > .player-controls-container
+  > .timeline-container
+  > .timeline::before,
+.player-container
+  > .player-controls-container
+  > .timeline-container:hover
+  > .progress::before {
+  display: block;
+}
+
+.player-container.scrubbing
+  > .player-controls-container
+  > .timeline-container
+  > .thumb-indicator,
+.player-container
+  > .player-controls-container
+  > .timeline-container:hover
+  > .thumb-indicator {
+  scale: 1;
+}
+
+.player-container.scrubbing
+  > .player-controls-container
+  > .timeline-container
+  > .timeline,
+.player-container
+  > .player-controls-container
+  > .timeline-container:hover
+  > .timeline {
+  height: 100%;
+}
+.player-container.scrubbing
+  > .player-controls-container
+  > .timeline-container
+  > .progress,
+.player-container
+  > .player-controls-container
+  > .timeline-container:hover
+  > .progress {
+  height: 7px;
+}
+.player-container.scrubbing
+  > .player-controls-container
+  > .timeline-container
+  > .buffer,
+.player-container
+  > .player-controls-container
+  > .timeline-container:hover
+  > .buffer {
+  height: 7px;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0em 0em 0em 0em hsla(0, 0%, 0%, 0.5);
+  }
+  100% {
+    box-shadow: 0em 0em 0em 0.3em hsla(0, 0%, 0%, 0);
+  }
+}
+@media screen and (max-width: 1079px) {
+  .player-container {
+    width: 720px;
+  }
+}
+@media screen and (max-width: 719px) {
+  .player-container {
+    width: 480px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .player-container {
+    width: 360px;
+  }
+}
+@media screen and (max-width: 359px) {
+  .player-container {
+    width: 100%;
+  }
+}
